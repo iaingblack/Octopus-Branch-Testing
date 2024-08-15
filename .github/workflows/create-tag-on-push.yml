@@ -1,0 +1,41 @@
+name: Tag-On-PR-To-Main
+
+on: push
+  # pull_request:
+  #   types:
+  #     - closed
+  #   branches:
+  #     - main
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # This creates a tag on the main branch only when a PR is closed against main
+    # In comments, add #patch #minor #major in the comment to have it increment 0.0.1, 0.1 or 1. Defaults to patch
+    steps:
+    - name: Get branch names
+      id: branch-names
+      uses: tj-actions/branch-names@v8
+    - name: Current branch names
+      run: |
+        echo "${{ steps.branch-names.outputs.current_branch }}"
+    # https://stackoverflow.com/questions/60942067/get-current-date-and-time-in-github-workflows
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.2
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # Force a 0.0.0 but doesnt bump. Unfortunately, it then says tag exist and wont update existing one
+        # custom_tag: "0.0.0-${{ steps.branch-names.outputs.current_branch }}"
+        # Creates like 0.0.5-BRANCH-NAME.0, 0.0.5-BRANCH-NAME.1 etc
+        #append_to_pre_release_tag: "${{ steps.branch-names.outputs.current_branch }}"
+        # Works, but octopus needs a number first...
+        #tag_prefix: "BRANCH-${{ steps.branch-names.outputs.current_branch }}-"
+        # Force a 0.0.0 but doesnt bump
+        #custom_tag: "0.0.0-${{ steps.branch-names.outputs.current_branch }}"
+        # Works, but generates 0.0.0-MER-1001-Test-Feature-0.0.1-MER-1001-Test-Feature.0
+        #tag_prefix: "0.0.0-${{ steps.branch-names.outputs.current_branch }}-"
+        custom_tag: "0.0.0-${{ steps.branch-names.outputs.current_branch }}-${{ steps.date.outputs.date }}"
