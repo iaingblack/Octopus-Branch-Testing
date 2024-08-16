@@ -6,10 +6,12 @@ on: push
   #     - closed
   #   branches:
   #     - main
-  
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test-job:
+    runs-on: self-hosted
+    container:
+      image: octopusdeploy/worker-tools:6.2-ubuntu.22.04
     # This creates a tag on the main branch only when a PR is closed against main
     # In comments, add #patch #minor #major in the comment to have it increment 0.0.1, 0.1 or 1. Defaults to patch
     steps:
