@@ -6,7 +6,7 @@ jobs:
   Explore-GitHub-Actions:
     # You need to use the INSTALLATION_NAME from the previous step
     runs-on: arc-runner-set
-    container:
-      image: octopusdeploy/worker-tools:6.2-ubuntu.22.04
+    # container:
+    #   image: octopusdeploy/worker-tools:6.2-ubuntu.22.04
     steps:
     - run: echo "🎉 This job uses runner scale set runners!"
