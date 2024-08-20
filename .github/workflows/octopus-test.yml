@@ -1,0 +1,12 @@
+name: Octopus Test
+on:
+  workflow_dispatch:
+
+jobs:
+  Explore-GitHub-Actions:
+    # You need to use the INSTALLATION_NAME from the previous step
+    runs-on: arc-runner-set
+    container: octopusdeploy/octo
+      # image: octopusdeploy/worker-tools:6.2-ubuntu.22.04
+    steps:
+    - run: octo
