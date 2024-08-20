@@ -10,3 +10,4 @@ jobs:
       # image: octopusdeploy/worker-tools:6.2-ubuntu.22.04
     steps:
     - run: octo
+    - run: ping nuc-octopusdeploy -c 3
